@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+    <!-- ActionBean定义 -->
+    <!-- 销售记录查看 -->
+    <bean name="/salesRecordView" scope="singleton"
+        class="com.zhongyi.glass.action.SalesRecordViewAction">
+        <property name="salesRecordDao">
+            <ref bean="salesRecordDao" />
+        </property>
+    </bean>
+    <!-- 销售记录增加 -->
+    <bean name="/salesRecordEdit" scope="singleton"
+        class="com.zhongyi.glass.action.SalesRecordEditAction">
+        <property name="salesRecordDao">
+            <ref bean="salesRecordDao" />
+        </property>
+        <property name="employeeDao">
+            <ref bean="employeeDao" />
+        </property>
+    </bean>
+    <!-- 历史销售记录查看 -->
+    <bean name="/salesRecordDetail" scope="singleton"
+        class="com.zhongyi.glass.action.SalesRecordDetailAction">
+        <property name="salesRecordDao">
+            <ref bean="salesRecordDao" />
+        </property>
+        <property name="employeeDao">
+            <ref bean="employeeDao" />
+        </property>
+    </bean>
+
+    <!-- 顾客信息 查看 -->
+    <bean name="/customerView" scope="singleton"
+        class="com.zhongyi.glass.action.CustomerViewAction">
+        <property name="customerDao">
+            <ref bean="customerDao" />
+        </property>
+    </bean>
+    <!-- 顾客信息 编辑 -->
+    <bean name="/customerEdit" scope="singleton"
+        class="com.zhongyi.glass.action.CustomerEditAction">
+        <property name="customerDao">
+            <ref bean="customerDao" />
+        </property>
+    </bean>
+
+    <!-- 职员信息查看  -->
+    <bean name="/employeeView" scope="singleton"
+        class="com.zhongyi.glass.action.EmployeeViewAction">
+        <property name="employeeDao">
+            <ref bean="employeeDao" />
+        </property>
+    </bean>
+    <!-- 职员信息编辑  -->
+    <bean name="/employeeEdit" scope="singleton"
+        class="com.zhongyi.glass.action.EmployeeEditAction">
+        <property name="employeeDao">
+            <ref bean="employeeDao" />
+        </property>
+    </bean>
+
+    <!-- 更新配置 -->
+    <bean name="/refreshConfig" scope="singleton"
+        class="com.zhongyi.glass.action.RefreshConfigAction" />
+    
+</beans>

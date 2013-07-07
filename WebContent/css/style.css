@@ -1,0 +1,89 @@
+.uesr {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.navigator {
+	float: left;
+	width: 15%;
+}
+
+.main {
+	float: left;
+	width: 80%;
+	margin-left: 15px;
+}
+
+.button {
+	background-color: #F3FAFF;
+	border: 1px solid #7F9DB9;
+	padding-right: 7px;
+	padding-left: 7px;
+	padding-top: 1px;
+	cursor: pointer;
+	color: #005BAC;
+}
+
+.button:hover {
+	padding-right: 7px;
+	padding-left: 7px;
+	padding-top: 1px;
+	background-color: #005BAC;
+	color: #F3FAFF;
+}
+
+.disableButton {
+	background-color: #F3FAFF;
+	border: 1px solid #7F9DB9;
+	padding-right: 7px;
+	padding-left: 7px;
+	padding-top: 1px;
+	color: #005BAC;
+}
+
+.pagea {
+	text-decoration: none;
+	background-color: #F3FAFF;
+	border: 1px solid #7F9DB9;
+	padding-right: 7px;
+	padding-left: 7px;
+	padding-top: 1px;
+	color: #005BAC;
+}
+
+table.t1 {
+	border-width: 1px;
+	border-spacing: 0px;
+	border-style: outset;
+	border-color: gray;
+	border-collapse: separate;
+	background-color: white;
+}
+
+table.t1 tr {
+	border-width: 1px;
+	padding: 1px;
+	border-style: inset;
+	border-color: gray;
+	-moz-border-radius: ;
+}
+
+table.t1 td {
+	border-width: 1px;
+	padding: 1px;
+	border-style: inset;
+	border-color: gray;
+	-moz-border-radius: ;
+}
+
+preview {
+	width: 100px;
+	height: 100px;
+	border: 1px solid #000;
+	overflow: hidden;
+}
+
+imghead {
+	filter: progid :     DXImageTransform.Microsoft.AlphaImageLoader (  
+		  sizingMethod =     image );
+}

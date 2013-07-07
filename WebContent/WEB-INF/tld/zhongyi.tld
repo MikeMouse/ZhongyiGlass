@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+	<description>A tag library exercising SimpleTag handlers.</description>
+	<tlib-version>1.0</tlib-version>
+	<short-name>z</short-name>
+	<uri>/zhongyi</uri>
+	<tag>
+		<name>page</name>
+		<tag-class>
+			com.zhongyi.glass.page.PageTag
+		</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<!--标签中的属性-->
+			<name>name</name>
+			<!--属性名-->
+			<required>true</required>
+			<!--是否必须-->
+			<rtexprvalue>true</rtexprvalue>
+			<!--表示该自定义标签的某属性的值可以直接指定或者通过动态计算指定-->
+		</attribute>
+		<attribute>
+			<name>
+				styleClass</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- 数据源定义 -->
+	<!-- 厂商读库 -->
+	<bean id="zhongyiReadDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.logicalcobwebs.proxool.ProxoolDriver" />
+		<property name="url" value="proxool.zhongyiReadDataSource" />
+	</bean>
+	<!-- 厂商写库 -->
+	<bean id="zhongyiWriteDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.logicalcobwebs.proxool.ProxoolDriver" />
+		<property name="url" value="proxool.zhongyiWriteDataSource" />
+	</bean>
+	
+	<!-- SqlMap定义 -->
+	<bean id="zhongyiReadSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="WEB-INF/config/sqlMapConfig.xml">
+		</property>
+		<property name="dataSource">
+			<ref bean="zhongyiReadDataSource" />
+		</property>
+	</bean>
+	<bean id="zhongyiWriteSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="WEB-INF/config/sqlMapConfig.xml">
+		</property>
+		<property name="dataSource">
+			<ref bean="zhongyiWriteDataSource" />
+		</property>
+	</bean>
+
+	<!-- template 定义 -->
+	<bean id="zhongyiReadSqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+		<property name="sqlMapClient">
+			<ref bean="zhongyiReadSqlMapClient" />
+		</property>
+	</bean>
+	<bean id="zhongyiWriteSqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+		<property name="sqlMapClient">
+			<ref bean="zhongyiWriteSqlMapClient" />
+		</property>
+	</bean>
+
+	<!-- DAO定义 -->
+    <!-- 顾客信息DAO -->
+    <bean id="customerDao" class="com.zhongyi.glass.dao.CustomerDao">
+        <property name="zhongyiReadSqlMapClientTemplate">
+            <ref local="zhongyiReadSqlMapClientTemplate" />
+        </property>
+        <property name="zhongyiWriteSqlMapClientTemplate">
+            <ref local="zhongyiWriteSqlMapClientTemplate" />
+        </property>
+    </bean>
+    <!-- 职员信息DAO -->
+    <bean id="employeeDao" class="com.zhongyi.glass.dao.EmployeeDao">
+        <property name="zhongyiReadSqlMapClientTemplate">
+            <ref local="zhongyiReadSqlMapClientTemplate" />
+        </property>
+        <property name="zhongyiWriteSqlMapClientTemplate">
+            <ref local="zhongyiWriteSqlMapClientTemplate" />
+        </property>
+    </bean>
+    <!-- 销售记录DAO -->
+	<bean id="salesRecordDao" class="com.zhongyi.glass.dao.SalesRecordDao">
+		<property name="zhongyiReadSqlMapClientTemplate">
+			<ref local="zhongyiReadSqlMapClientTemplate" />
+		</property>
+		<property name="zhongyiWriteSqlMapClientTemplate">
+			<ref local="zhongyiWriteSqlMapClientTemplate" />
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <something-else-entirely>
+     <proxool>
+         <alias>zhongyiReadDataSource</alias>
+         <driver-url>jdbc:mysql://127.0.0.1:3306/zhongyi?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8</driver-url>
+         <driver-class>com.mysql.jdbc.Driver</driver-class>
+         <driver-properties>
+             <property name="user" value="root" />
+             <property name="password" value="root" />
+         </driver-properties>   
+         <maximum-connection-count>10</maximum-connection-count>
+         <minimum-connection-count>1</minimum-connection-count>
+         <house-keeping-sleep-time>90000</house-keeping-sleep-time>
+         <maximum-new-connections>1</maximum-new-connections>
+         <prototype-count>1</prototype-count>
+         <test-before-use>true</test-before-use>
+         <house-keeping-test-sql>SELECT CURRENT_DATE</house-keeping-test-sql>
+     </proxool>
+     <proxool>
+         <alias>zhongyiWriteDataSource</alias>
+         <driver-url>jdbc:mysql://127.0.0.1:3306/zhongyi?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8</driver-url>
+         <driver-class>com.mysql.jdbc.Driver</driver-class>
+         <driver-properties>
+             <property name="user" value="root" />
+             <property name="password" value="root" />
+         </driver-properties>
+         <maximum-connection-count>10</maximum-connection-count>
+         <minimum-connection-count>1</minimum-connection-count>
+         <house-keeping-sleep-time>90000</house-keeping-sleep-time>
+         <maximum-new-connections>1</maximum-new-connections>
+         <prototype-count>1</prototype-count>
+         <test-before-use>true</test-before-use>
+         <house-keeping-test-sql>SELECT CURRENT_DATE</house-keeping-test-sql>
+     </proxool>
+ </something-else-entirely>

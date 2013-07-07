@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE struts-config PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+		"http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+	<form-beans>
+	    <form-bean name="SalesRecordForm" type="com.zhongyi.glass.form.SalesRecordForm" />
+	    <form-bean name="CustomerForm" type="com.zhongyi.glass.form.CustomerForm" />
+	    <form-bean name="EmployeeForm" type="com.zhongyi.glass.form.EmployeeForm" />
+	</form-beans>
+
+	<global-exceptions />
+  	<global-forwards>
+		<forward name="sys_error" path="/jsp/syserror.jsp" />
+	</global-forwards>
+	<action-mappings>
+		<!-- 销售记录查看 -->
+		<action path="/salesRecordView" name="SalesRecordForm" scope="request">
+			<forward name="success" path="/jsp/salesRecord/salesRecordView.jsp"/>
+			<forward name="error" path="/jsp/salesRecord/salesRecordView.jsp"/>
+		</action>
+        <!-- 销售记录增加 -->
+        <action path="/salesRecordEdit" name="SalesRecordForm" scope="request">
+            <forward name="success" path="/jsp/salesRecord/salesRecordEdit.jsp"/>
+            <forward name="error" path="/jsp/salesRecord/salesRecordEdit.jsp"/>
+        </action>
+        <!-- 历史销售记录查看 -->
+        <action path="/salesRecordDetail" name="SalesRecordForm" scope="request">
+            <forward name="success" path="/jsp/salesRecord/salesRecordDetail.jsp"/>
+            <forward name="error" path="/jsp/salesRecord/salesRecordDetail.jsp"/>
+        </action>
+
+        <!-- 顾客信息查看 -->
+        <action path="/customerView" name="CustomerForm" scope="request">
+            <forward name="success" path="/jsp/customer/customerView.jsp"/>
+            <forward name="error" path="/jsp/customer/customerView.jsp"/>
+        </action>
+        <!-- 顾客信息编辑 -->
+        <action path="/customerEdit" name="CustomerForm" scope="request">
+            <forward name="success" path="/jsp/customer/customerEdit.jsp"/>
+            <forward name="error" path="/jsp/customer/customerEdit.jsp"/>
+        </action>
+
+        <!-- 职员信息查看 -->
+        <action path="/employeeView" name="EmployeeForm" scope="request">
+            <forward name="success" path="/jsp/employee/employeeView.jsp"/>
+        </action>
+        <!-- 职员信息编辑 -->
+        <action path="/employeeEdit" name="EmployeeForm" scope="request">
+            <forward name="success" path="/jsp/employee/employeeEdit.jsp"/>
+            <forward name="error" path="/jsp/employee/employeeEdit.jsp"/>
+        </action>
+
+        <!-- 刷新配置文件 -->
+		<action path="/refreshConfig" />
+	</action-mappings>
+
+	<!-- SpringRequestProcessor -->
+	<controller processorClass="org.springframework.web.struts.DelegatingRequestProcessor"
+		maxFileSize="10M" nocache="true" />
+
+	<!-- SpringBean定义文件 -->
+	<plug-in className="org.springframework.web.struts.ContextLoaderPlugIn">
+		<set-property property="contextConfigLocation"
+			value="/WEB-INF/config/moduleContext.xml" />
+	</plug-in>
+</struts-config>

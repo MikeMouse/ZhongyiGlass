@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- SqlMap定义 -->
+<sqlMap namespace="zhongyi">
+	<typeAlias alias="int" type="java.lang.Integer" />
+	<typeAlias alias="string" type="java.lang.String" />
+	<typeAlias alias="hashmap" type="java.util.HashMap" />
+	<typeAlias alias="map" type="java.util.Map" />
+
+	<!-- 分页 -->
+	<sql id="_page_">
+		<isNotNull property="pageLimit" prepend=" limit ">
+			<isNotNull property="pageStart">
+				#pageStart#,
+			</isNotNull>
+			#pageLimit#
+		</isNotNull>
+	</sql>
+
+    <!-- 职员 -->
+    <!-- 所有有效职员信息列表-->
+    <select id="getAllEmployeeList" resultClass="com.zhongyi.glass.bean.EmployeeBean">
+        SELECT
+            id AS id
+            ,name AS name
+        FROM
+            employee
+        WHERE
+            is_valid = 1
+        ORDER BY
+            id
+    </select>
+
+    <!-- 职员信息总件数 -->
+    <select id="getEmployeeCount" parameterClass="map" resultClass="int">
+        SELECT
+            count(id) AS cnt
+        FROM
+            employee
+        WHERE
+            is_valid = 1
+            <isNotEmpty property="NAME" prepend=" AND ">
+                name = #NAME#
+            </isNotEmpty>
+    </select>
+
+    <!-- 职员信息列表-->
+    <select id="getEmployeeList" parameterClass="map" resultClass="hashmap">
+        SELECT
+            id AS ID
+            ,name AS NAME
+            ,gender AS GENDER
+            ,create_date AS CREATE_DATE
+        FROM
+            employee
+        WHERE
+            is_valid = 1
+            <isNotEmpty property="NAME" prepend=" AND ">
+                name = #NAME#
+            </isNotEmpty>
+        <include refid="_page_"/>
+    </select>
+
+    <!-- 指定职员信息-->
+    <select id="getEmployeeInfo" parameterClass="string" resultClass="hashmap">
+        SELECT
+            id AS ID
+            ,name AS NAME
+            ,gender AS GENDER
+            ,create_date AS CREATE_DATE
+        FROM
+            employee
+        WHERE
+            is_valid = 1
+            AND id = #ID#
+    </select>
+
+    <!-- 添加职员信息 -->
+    <insert id="insertEmployeeInfo" parameterClass="map">
+        INSERT INTO
+            employee
+            (name, gender, is_valid, create_date, update_date)
+        VALUES
+            (#NAME#, #GENDER#, '1', #DATE#, #DATE#)
+    </insert>
+
+    <!-- 修改职员信息 -->
+    <update id="updateEmployeeInfo" parameterClass="map">
+        UPDATE
+            employee
+        SET
+            name = #NAME#
+            ,gender = #GENDER#
+            ,update_date = #DATE#
+        WHERE
+            id = #ID#
+            AND is_valid = 1
+    </update>
+
+    <!-- 顾客 -->
+    <!-- 顾客信息总件数 -->
+    <select id="getCustomerCount" parameterClass="map" resultClass="int">
+        SELECT
+            count(id) AS cnt
+        FROM
+            customer
+        WHERE
+            is_valid = 1
+            <isNotEmpty property="NAME" prepend=" AND ">
+                name = #NAME#
+            </isNotEmpty>
+            <isNotEmpty property="MOBILE_PHONE" prepend=" AND ">
+                mobile_phone = #MOBILE_PHONE#
+            </isNotEmpty>
+            <isNotEmpty property="HOME_PHONE" prepend=" AND ">
+                home_phone = #HOME_PHONE#
+            </isNotEmpty>
+    </select>
+
+    <!-- 顾客信息列表-->
+    <select id="getCustomerList" parameterClass="map" resultClass="hashmap">
+        SELECT
+            id AS ID
+            ,name AS NAME
+            ,gender AS GENDER
+            ,mobile_phone AS MOBILE_PHONE
+            ,home_phone AS HOME_PHONE
+        FROM
+            customer
+        WHERE
+            is_valid = 1
+            <isNotEmpty property="NAME" prepend=" AND ">
+                name = #NAME#
+            </isNotEmpty>
+            <isNotEmpty property="MOBILE_PHONE" prepend=" AND ">
+                mobile_phone = #MOBILE_PHONE#
+            </isNotEmpty>
+            <isNotEmpty property="HOME_PHONE" prepend=" AND ">
+                home_phone = #HOME_PHONE#
+            </isNotEmpty>
+        <include refid="_page_"/>
+    </select>
+
+    <!-- 指定顾客信息-->
+    <select id="getCustomerInfo" parameterClass="string" resultClass="hashmap">
+        SELECT
+            id AS ID
+            ,name AS NAME
+            ,gender AS GENDER
+            ,mobile_phone AS MOBILE_PHONE
+            ,home_phone AS HOME_PHONE
+        FROM
+            customer
+        WHERE
+            is_valid = 1
+            AND id = #ID#
+    </select>
+
+    <!-- 添加顾客信息 -->
+    <insert id="insertCustomerInfo" parameterClass="map">
+        INSERT INTO
+            customer
+            (name, gender, mobile_phone, home_phone, is_valid, create_date, update_date)
+        VALUES
+            (#NAME#, #GENDER#, #MOBILE_PHONE#, #HOME_PHONE#, '1', #DATE#, #DATE#)
+    </insert>
+
+    <!-- 修改顾客信息 -->
+    <update id="updateCustomerInfo" parameterClass="map">
+        UPDATE
+            customer
+        SET
+            name = #NAME#
+            ,gender = #GENDER#
+            ,update_date = #DATE#
+            ,mobile_phone = #MOBILE_PHONE#
+            ,home_phone = #HOME_PHONE#
+        WHERE
+            id = #ID#
+            AND is_valid = 1
+    </update>
+    
+    <!-- 视力字典表 -->
+    <!-- 视力 -->
+    <select id="getVisualAcuityList" resultClass="com.zhongyi.glass.bean.VisualAcuityBean">
+        SELECT
+            id AS id
+            ,value AS value
+        FROM
+            visual_chart_dict
+        ORDER BY
+            value
+    </select>
+    
+    <!-- 球镜字典表 -->
+    <!-- 球镜 -->
+    <select id="getConcaveSphereList" resultClass="com.zhongyi.glass.bean.ConcaveSphereBean">
+        SELECT
+            id AS id
+            ,value AS value
+        FROM
+            concave_sphere_dict
+        ORDER BY
+            value
+    </select>
+    
+    <!-- 柱镜字典表 -->
+    <!-- 柱镜 -->
+    <select id="getConcaveCylinderList" resultClass="com.zhongyi.glass.bean.ConcaveCylinderBean">
+        SELECT
+            id AS id
+            ,value AS value
+        FROM
+            concave_cylinder_dict
+        ORDER BY
+            value
+    </select>
+    
+    <!-- 商品类型字典表 -->
+    <!-- 商品类型 -->
+    <select id="getGoodsTypeList" resultClass="com.zhongyi.glass.bean.GoodsTypeBean">
+        SELECT
+            id AS id
+            ,name AS name
+        FROM
+            goods_type_dict
+        ORDER BY
+            id
+    </select>
+    
+    <!-- 销售记录、销售商品表 -->
+    <!-- 顾客最近一次的销售信息 -->
+    <select id="getLastestSalesRecordList" parameterClass="map" resultClass="hashmap">
+        SELECT
+            t1.id AS SALES_RECORD_ID
+            ,t1.glass_type AS GLASS_TYPE
+            ,t1.glass_status AS GLASS_TAKEN_STATUS
+            ,t1.total_amount AS TOTAL_AMOUNT
+            ,t1.total_discount AS TOTAL_DISCOUNT
+            ,t2.CUSTOMER_ID
+            ,t2.CUSTOMER_NAME
+            ,t2.MOBILE_PHONE
+            ,t2.HOME_PHONE
+        FROM
+            sales_record t1
+            INNER JOIN
+	        (SELECT
+	            sr.id AS SALES_RECORD_ID
+	            ,cu.id AS CUSTOMER_ID
+	            ,cu.name AS CUSTOMER_NAME
+	            ,cu.mobile_phone AS MOBILE_PHONE
+	            ,cu.home_phone AS HOME_PHONE
+	        FROM
+	            (SELECT
+	                customer_id
+	                ,max(id) as id
+	             FROM
+	                sales_record
+	             GROUP BY
+	                customer_id
+	            ) sr
+	            INNER JOIN
+		        (SELECT
+		            id
+		            ,name
+		            ,mobile_phone
+		            ,home_phone
+		         FROM
+		            customer
+		         WHERE
+		            is_valid = 1
+		            <isNotEmpty property="CUSTOMER_NAME" prepend=" AND ">
+		                name = #CUSTOMER_NAME#
+		            </isNotEmpty>
+		            <isNotEmpty property="MOBILE_PHONE" prepend=" AND ">
+		                mobile_phone = #MOBILE_PHONE#
+		            </isNotEmpty>
+		            <isNotEmpty property="HOME_PHONE" prepend=" AND ">
+		                home_phone = #HOME_PHONE#
+		            </isNotEmpty>) cu
+		        ON sr.customer_id = cu.id) t2
+		    ON
+		        t1.id = t2.SALES_RECORD_ID
+		ORDER BY
+		    CUSTOMER_ID
+    </select>
+    
+    <!-- 指定顾客的最近一次的销售记录ID -->
+    <select id="getLastestSalesRecordIdByCustomer" parameterClass="string" resultClass="string">
+        SELECT
+           id AS SALES_RECORD_ID
+        FROM
+           sales_record
+        WHERE
+           customer_id = #CUSTOMER_ID#
+        ORDER BY
+           id DESC
+        LIMIT
+            1
+    </select>
+    
+    <!-- 指定顾客的历史记录信息 -->
+    <select id="getSalesRecordListByCustomer" parameterClass="string" resultClass="hashmap">
+        SELECT
+            sr.id AS SALES_RECORD_ID
+            ,sr.customer_id AS CUSTOMER_ID
+            ,sr.glass_type AS GLASS_TYPE
+            ,sr.uncorrected_visual_acuity_left AS UNCORRECTED_VISUAL_ACUITY_LEFT
+            ,sr.uncorrected_visual_acuity_right AS UNCORRECTED_VISUAL_ACUITY_RIGHT
+            ,sr.concave_sphere_left AS CONCAVE_SPHERE_LEFT
+            ,sr.concave_sphere_right AS CONCAVE_SPHERE_RIGHT
+            ,sr.concave_cylinder_left AS CONCAVE_CYLINDER_LEFT
+            ,sr.concave_cylinder_right AS CONCAVE_CYLINDER_RIGHT
+            ,sr.axial_direction_left AS AXIAL_DIRECTION_LEFT
+            ,sr.axial_direction_right AS AXIAL_DIRECTION_RIGHT
+            ,sr.corrected_visual_acuity_left AS CORRECTED_VISUAL_ACUITY_LEFT
+            ,sr.corrected_visual_acuity_right AS CORRECTED_VISUAL_ACUITY_RIGHT
+            ,sr.interpupillary_distance_far_left AS INTERPUPILLARY_DISTANCE_FAR_LEFT
+            ,sr.interpupillary_distance_far_right AS INTERPUPILLARY_DISTANCE_FAR_RIGHT
+            ,sr.interpupillary_distance_close_left AS INTERPUPILLARY_DISTANCE_CLOSE_LEFT
+            ,sr.interpupillary_distance_close_right AS INTERPUPILLARY_DISTANCE_CLOSE_RIGHT
+            ,sr.degree_left AS DEGREE_LEFT
+            ,sr.degree_right AS DEGREE_RIGHT
+            ,sr.optometrist AS OPTOMERTRIST
+            ,sr.lens_dispenser AS LENS_DISPENSER
+            ,sr.processor AS PROCESSOR
+            ,sr.inspector AS INSPECTOR
+            ,sr.cashier AS CASHIER
+            ,sr.total_amount AS TOTAL_AMOUNT
+            ,sr.total_discount AS TOTAL_DISCOUNT
+            ,sr.glass_status AS GLASS_STATUS
+            ,sr.glass_taken_date AS GLASS_TAKEN_DATE
+            ,sr.reexamine_date AS REEXAMINE_DATE
+            ,sr.comment AS COMMENT
+            ,sr.update_time AS UPDATE_TIME
+            ,sg.sales_goods_no AS SALES_GOODS_NO
+            ,sg.goods_type AS GOODS_TYPE
+            ,sg.brand AS BRAND
+            ,sg.brand_sub_type AS BRAND_SUB_TYPE
+            ,sg.quantity AS QUANTITY
+            ,sg.price AS PRICE
+            ,sg.discount_type AS DISCOUNT_TYPE
+            ,sg.discount AS DISCOUNT
+            ,sg.amount AS AMOUNT
+            ,cu.name AS CUSTOMER_NAME
+        FROM
+            sales_record sr
+            INNER JOIN
+            sales_goods sg
+            ON sr.id = sg.sales_record_id
+            INNER JOIN
+            customer cu
+            ON sr.customer_id = cu.id
+        WHERE
+            sr.customer_id = #CUSTOMER_ID#
+        ORDER BY
+            SALES_RECORD_ID DESC
+            ,SALES_GOODS_NO
+    </select>
+    
+    <!-- 指定销售记录信息 -->
+    <select id="getSalesRecordInfo" parameterClass="string" resultClass="hashmap">
+        SELECT
+           sr.id AS SALES_RECORD_ID
+           ,sr.customer_id AS CUSTOMER_ID
+           ,sr.glass_type AS GLASS_TYPE
+           ,sr.uncorrected_visual_acuity_left AS UNCORRECTED_VISUAL_ACUITY_LEFT
+           ,sr.uncorrected_visual_acuity_right AS UNCORRECTED_VISUAL_ACUITY_RIGHT
+           ,sr.concave_sphere_left AS CONCAVE_SPHERE_LEFT
+           ,sr.concave_sphere_right AS CONCAVE_SPHERE_RIGHT
+           ,sr.concave_cylinder_left AS CONCAVE_CYLINDER_LEFT
+           ,sr.concave_cylinder_right AS CONCAVE_CYLINDER_RIGHT
+           ,sr.axial_direction_left AS AXIAL_DIRECTION_LEFT
+           ,sr.axial_direction_right AS AXIAL_DIRECTION_RIGHT
+           ,sr.corrected_visual_acuity_left AS CORRECTED_VISUAL_ACUITY_LEFT
+           ,sr.corrected_visual_acuity_right AS CORRECTED_VISUAL_ACUITY_RIGHT
+           ,sr.interpupillary_distance_far_left AS INTERPUPILLARY_DISTANCE_FAR_LEFT
+           ,sr.interpupillary_distance_far_right AS INTERPUPILLARY_DISTANCE_FAR_RIGHT
+           ,sr.interpupillary_distance_close_left AS INTERPUPILLARY_DISTANCE_CLOSE_LEFT
+           ,sr.interpupillary_distance_close_right AS INTERPUPILLARY_DISTANCE_CLOSE_RIGHT
+           ,sr.degree_left AS DEGREE_LEFT
+           ,sr.degree_right AS DEGREE_RIGHT
+           ,sr.optometrist AS OPTOMERTRIST
+           ,sr.lens_dispenser AS LENS_DISPENSER
+           ,sr.processor AS PROCESSOR
+           ,sr.inspector AS INSPECTOR
+           ,sr.cashier AS CASHIER
+           ,sr.total_amount AS TOTAL_AMOUNT
+           ,sr.total_discount AS TOTAL_DISCOUNT
+           ,sr.glass_status AS GLASS_STATUS
+           ,sr.glass_taken_date AS GLASS_TAKEN_DATE
+           ,sr.reexamine_date AS REEXAMINE_DATE
+           ,sr.comment AS COMMENT
+           ,cu.name AS CUSTOMER_NAME
+        FROM
+           sales_record sr
+           INNER JOIN
+           customer cu
+           ON sr.customer_id = cu.id
+        WHERE
+           sr.id = #SALES_RECORD_ID#
+    </select>
+    
+    <!-- 指定销售记录ID对应的商品信息 -->
+    <select id="getSalesGoodsList" parameterClass="string" resultClass="hashmap">
+        SELECT
+           sales_record_id AS SALES_RECORD_ID
+           ,sales_goods_no AS SALES_GOODS_NO
+           ,goods_type AS GOODS_TYPE
+           ,brand AS BRAND
+           ,brand_sub_type AS BRAND_SUB_TYPE
+           ,quantity AS QUANTITY
+           ,price AS PRICE
+           ,discount_type AS DISCOUNT_TYPE
+           ,discount AS DISCOUNT
+           ,amount AS AMOUNT
+        FROM
+           sales_goods
+        WHERE
+           sales_record_id = #SALES_RECORD_ID#
+    </select>
+
+    <!-- 添加销售记录信息 -->
+    <insert id="insertSalesRecordInfo" parameterClass="map">
+        INSERT INTO
+            sales_record
+            (customer_id
+             ,glass_type
+             ,uncorrected_visual_acuity_left
+             ,uncorrected_visual_acuity_right
+             ,concave_sphere_left
+             ,concave_sphere_right
+             ,concave_cylinder_left
+             ,concave_cylinder_right
+             ,axial_direction_left
+             ,axial_direction_right
+             ,corrected_visual_acuity_left
+             ,corrected_visual_acuity_right
+             ,interpupillary_distance_far_left
+             ,interpupillary_distance_far_right
+             ,interpupillary_distance_close_left
+             ,interpupillary_distance_close_right
+             ,degree_left
+             ,degree_right
+             ,optometrist
+             ,lens_dispenser
+             ,processor
+             ,inspector
+             ,cashier
+             ,total_amount
+             ,total_discount
+             ,create_time
+             ,update_time
+             ,glass_status
+             ,glass_taken_date
+             ,reexamine_date
+             ,comment
+            )
+        VALUES
+            (#CUSTOMER_ID#
+             ,#GLASS_TYPE#
+             ,#UNCORRECTED_VISUAL_ACUITY_LEFT#
+             ,#UNCORRECTED_VISUAL_ACUITY_RIGHT#
+             ,#CONCAVE_SPHERE_LEFT#
+             ,#CONCAVE_SPHERE_RIGHT#
+             ,#CONCAVE_CYLINDER_LEFT#
+             ,#CONCAVE_CYLINDER_RIGHT#
+             ,#AXIAL_DIRECTION_LEFT#
+             ,#AXIAL_DIRECTION_RIGHT#
+             ,#CORRECTED_VISUAL_ACUITY_LEFT#
+             ,#CORRECTED_VISUAL_ACUITY_RIGHT#
+             ,#INTERPUPILLARY_DISTANCE_FAR_LEFT#
+             ,#INTERPUPILLARY_DISTANCE_FAR_RIGHT#
+             ,#INTERPUPILLARY_DISTANCE_CLOSE_LEFT#
+             ,#INTERPUPILLARY_DISTANCE_CLOSE_RIGHT#
+             ,#DEGREE_LEFT#
+             ,#DEGREE_RIGHT#
+             ,#OPTOMETRIST#
+             ,#LENS_DISPENSER#
+             ,#PROCESSOR#
+             ,#INSPECTOR#
+             ,#CASHIER#
+             ,#TOTAL_AMOUNT#
+             ,#TOTAL_DISCOUNT#
+             ,#CREATE_TIME#
+             ,#UPDATE_TIME#
+             ,#GLASS_STATUS#
+             ,#GLASS_TAKEN_DATE#
+             ,#RE_EXAMINE_DATE#
+             ,#COMMENT#
+            )
+    </insert>
+
+    <!-- 修改销售记录信息 -->
+    <update id="updateSalesRecordInfo" parameterClass="map">
+        UPDATE
+            sales_record
+        SET
+            glass_status = #GLASS_STATUS#
+            ,glass_taken_date = #GLASS_TAKEN_DATE#
+            ,reexamine_date = #RE_EXAMINE_DATE#
+            ,comment = #COMMENT#
+            ,update_time = #UPDATE_TIME#
+        WHERE
+            id = #SALES_RECORD_ID#
+    </update>
+
+    <!-- 添加销售记录对应的商品信息 -->
+    <insert id="insertSalesGoodsInfo" parameterClass="map">
+        INSERT INTO
+            sales_goods
+            (sales_record_id
+             ,sales_goods_no
+             ,goods_type
+             ,brand
+             ,brand_sub_type
+             ,quantity
+             ,price
+             ,discount_type
+             ,discount
+             ,amount
+            )
+        VALUES
+            (#SALES_RECORD_ID#
+             ,#GOODS_NO#
+             ,#GOODS_TYPE#
+             ,#GOODS_BRAND#
+             ,#GOODS_BRAND_SUB_TYPE#
+             ,#GOODS_QUANTITY#
+             ,#GOODS_PRICE#
+             ,#GOODS_DISCOUNT_TYPE#
+             ,#GOODS_DISCOUNT#
+             ,#GOODS_AMOUNT#
+            )
+    </insert>
+</sqlMap>
