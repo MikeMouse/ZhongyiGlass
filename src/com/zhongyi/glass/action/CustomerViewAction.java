@@ -94,7 +94,7 @@ public class CustomerViewAction extends BaseAction {
                 // 职员性别
                 if (CodeConstant.GENDER_FEMALE.equals(StringUtil.valueOf(item.get("GENDER")))) {
                     item.put("GENDER", CodeConstant.GENDER_DISPLAY_FEMALE);
-                } else {
+                } else if (CodeConstant.GENDER_MALE.equals(StringUtil.valueOf(item.get("GENDER")))) {
                     item.put("GENDER", CodeConstant.GENDER_DISPLAY_MALE);
                 }
             }
