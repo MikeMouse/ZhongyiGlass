@@ -120,11 +120,6 @@ public class CustomerEditAction extends BaseAction {
             return false;
         }
 
-        if (StringUtil.isEmpty(customerForm.getGender())) {
-            MessageUtil.setPopMessage(request, "性别不能为空！");
-            return false;
-        }
-
         String mobilePhone = customerForm.getMobilePhone();
         String homePhone = customerForm.getHomePhone();
         if (StringUtil.isEmpty(mobilePhone) && StringUtil.isEmpty(homePhone)) {
